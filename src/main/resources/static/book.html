@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio</title>
+    <link rel="stylesheet" href="plugins/material-js/angular-material.min.css">
+    <link rel="stylesheet" href="plugins/material-js/docs.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<script src="plugins/jquery.min.js"></script>
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="plugins/material-js/angular.min.js"></script>
+<script src="plugins/material-js/angular-animate.min.js"></script>
+<script src="plugins/material-js/angular-aria.min.js"></script>
+<script src="plugins/material-js/angular-messages.min.js"></script>
+<script src="plugins/material-js/svg-assets-cache.js"></script>
+<script src="plugins/material-js/angular-touch.js"></script>
+<script src="plugins/material-js/angular-route.js"></script>
+<script src="plugins/material-js/angular-material.min.js"></script>
+<script src="plugins/material-js/angular-websocket.js"></script>
+
+<script src="plugins/angular-audio-recorder/angular-audio-recorder.js"></script>
+<script src="js/app.js"></script>
+<script src="js/book.js"></script>
+
+<div ng-controller="BookController" ng-app="WebApp">
+    <md-toolbar layout="row" class="md-info header">
+        <h2 flex="33">Category 1 > Book 1</h2>
+        <h1 flex="33">Book1</h1> <span flex="33"></span>
+    </md-toolbar>
+
+    <md-subheader>
+        <ng-audio-recorder id="mainAudio" audio-model="recorded" show-player="false" time-limit="timeLimit">
+            <div ng-if="recorder.isAvailable">
+
+                <div ng-if="recorder.status.isDenied === true" style="color: red;">
+                    You need to grant permission for this application to USE your microphone.
+                </div>
+                <button ng-click="recorder.startRecord()" type="button"
+                        ng-disabled="recorder.status.isDenied === true || recorder.status.isRecording">
+                    Start Record
+                </button>
+                <button ng-click="recorder.stopRecord()" type="button"
+                        ng-disabled="recorder.status.isRecording === false">
+                    Stop Record
+                </button>
+
+                <button ng-click="recorder.status.isPlaying ? recorder.playbackPause() : recorder.playbackResume()"
+                        type="button" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                    {{recorder.status.isStopped || recorder.status.isPaused ? 'Play' : 'Pause'}}
+                </button>
+
+                <button ng-click="recorder.save()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                    Download
+                </button>
+
+                <div style="max-width: 600px">
+                    <div ng-show="recorder.status.isConverting">
+                        Please wait while your recording is processed.
+                    </div>
+
+                    <div ng-show="recorder.isHtml5 && recorder.status.isRecording">
+                        <ng-audio-recorder-analyzer></ng-audio-recorder-analyzer>
+                    </div>
+                    <br/>
+
+                    <div ng-show="!recorder.status.isRecording && recorder.audioModel">
+                        <ng-audio-recorder-wave-view wave-color="yellow" bar-color="red"></ng-audio-recorder-wave-view>
+                    </div>
+                </div>
+
+                <h2 style="font-family: sans-serif; text-align: center; width: 60px; border-radius: 20px;
+        border: solid 2px #333; padding: 20px 10px;" ng-if="recorder.status.isRecording">
+                    {{recorder.elapsedTime > 9 ? recorder.elapsedTime : ('0'+recorder.elapsedTime)}}
+                </h2>
+
+
+                <h2 style="font-family: sans-serif; text-align: center; border: solid 2px #333; padding: 20px 10px;"
+                    ng-if="recorder.status.isRecording">
+                    Remaining Time: {{recorder.timeLimit - recorder.elapsedTime}}
+                </h2>
+            </div>
+
+
+            <div ng-if="!recorder.isAvailable">
+                Your browser does not support this feature natively, please use latest version of <a
+                    href="https://www.google.com/chrome/browser" target="_blank">Google Chrome</a> or <a
+                    href="https://www.mozilla.org/en-US/firefox/new/" target="_blank">Mozilla Firefox</a>. If you're on
+                Safari or Internet Explorer, you can install <a href="https://get.adobe.com/flashplayer/">Adobe
+                Flash</a> to
+                use this feature.
+            </div>
+        </ng-audio-recorder>
+    </md-subheader>
+
+    <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="chapter one">
+            <md-subheader>
+                <div ng-hide="editMode" ng-click="edit()">edit</div>
+                <div ng-show="editMode" ng-click="save()">save</div>
+            </md-subheader>
+            <span ng-hide="editMode">{{book.chapters[0]}}</span>
+            <textarea ng-show="editMode" ng-model="book.chapters[0]"
+                      md-select-on-focus></textarea>
+        </md-tab>
+        <md-tab label="chapter two">
+            <md-subheader>
+                <div ng-click="edit(1)">edit</div>
+            </md-subheader>
+            <span ng-hide="editMode">{{book.chapters[0]}}</span>
+            <textarea ng-show="editMode" ng-model="book.chapters[0]" md-maxlength="150" rows="5"
+                      md-select-on-focus></textarea>
+        </md-tab>
+        <md-tab label="chapter three">
+            <md-subheader>
+                <div ng-click="edit(2)">edit</div>
+            </md-subheader>
+            <span ng-hide="editMode">{{book.chapters[0]}}</span>
+            <textarea ng-show="editMode" ng-model="book.chapters[0]" md-maxlength="150" rows="5"
+                      md-select-on-focus></textarea>
+        </md-tab>
+        <md-tab label="chapter four">
+            <md-subheader>
+                <div ng-click="edit(3)">edit</div>
+            </md-subheader>
+            <span ng-hide="editMode">{{book.chapters[0]}}</span>
+            <textarea ng-show="editMode" ng-model="book.chapters[0]" md-maxlength="150" rows="5"
+                      md-select-on-focus></textarea>
+        </md-tab>
+        <md-tab label="chapter five">
+            <md-subheader>
+                <div ng-click="edit(4)">edit</div>
+            </md-subheader>
+            <span ng-hide="editMode">{{book.chapters[0]}}</span>
+            <textarea ng-show="editMode" ng-model="book.chapters[0]" md-maxlength="150" rows="5"
+                      md-select-on-focus></textarea>
+        </md-tab>
+    </md-tabs>
+    </div>
+
+</div>
+</html>

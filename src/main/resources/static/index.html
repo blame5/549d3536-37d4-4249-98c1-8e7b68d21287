@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Website</title>
+    <link rel="stylesheet" href="plugins/material-js/angular-material.min.css">
+    <link rel="stylesheet" href="plugins/material-js/docs.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<script src="plugins/jquery.min.js"></script>
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="plugins/material-js/angular.min.js"></script>
+<script src="plugins/material-js/angular-animate.min.js"></script>
+<script src="plugins/material-js/angular-aria.min.js"></script>
+<script src="plugins/material-js/angular-messages.min.js"></script>
+<script src="plugins/material-js/svg-assets-cache.js"></script>
+<script src="plugins/material-js/angular-touch.js"></script>
+<script src="plugins/material-js/angular-route.js"></script>
+<script src="plugins/material-js/angular-material.min.js"></script>
+<script src="plugins/material-js/angular-websocket.js"></script>
+<script src="plugins/angular-audio-recorder/angular-audio-recorder.js"></script>
+<script src="js/app.js"></script>
+<script src="js/booklist.js"></script>
+
+<div ng-controller="ListController" ng-app="WebApp">
+    <md-toolbar class="md-info header"><h2>Mike Lin & Xin Guo's Audio Website</h2></md-toolbar>
+    <section layout="row">
+        <section flex="25">
+            <md-list>
+                <md-list-item ng-repeat="category in categories" ng-click="selectCategory(category)">{{category.name}}
+                </md-list-item>
+            </md-list>
+        </section>
+        <section layout="column" flex="75">
+            <md-subheader layout="row">
+                <span>{{selectedCategory.name}}</span><span flex="1"></span> <a ng-click="goToFourm(selectedCategory)">Forum</a>
+            </md-subheader>
+            <section>
+                <md-grid-list
+                        md-cols-xs="2" md-cols-sm="4" md-cols-md="8" md-cols-gt-md="12"
+                        md-row-height-gt-md="1:1" md-row-height="2:2"
+                        md-gutter="12px" md-gutter-gt-sm="8px">
+                    <md-grid-tile class="book-image" ng-click="gotoBook(book)" md-rowspan="3" md-colspan="2"
+                                  ng-repeat="book in selectedCategory.books" layout="row">
+                        <md-grid-tile-footer layout="row">
+                            <h3>{{book.name}}</h3>
+                            <md-icon md-svg-icon="icons/ic_star_black_24px.svg" ng-repeat="i in getStars(book.rating) track by $index"></md-icon>
+                            <md-icon md-svg-icon="icons/ic_star_border_black_24px.svg" ng-repeat="i in getBlanks(book.rating) track by $index"></md-icon>
+                        </md-grid-tile-footer>
+                    </md-grid-tile>
+
+                </md-grid-list>
+            </section>
+        </section>
+    </section>
+</div>
+</body>
+</html>
