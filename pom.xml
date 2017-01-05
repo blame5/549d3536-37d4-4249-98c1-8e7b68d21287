@@ -75,7 +75,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <classifier>exec</classifier>
-                    <mainClass>com.vhs.fusion.admin.UIApplication</mainClass>
+                    <mainClass>com.website.UIApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
