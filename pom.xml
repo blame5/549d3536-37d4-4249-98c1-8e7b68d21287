@@ -44,6 +44,12 @@
             <version>${spring.boot.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.glassfish.external</groupId>
+            <artifactId>apache-commons</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
         <!--
         **************   SWAGGER API  ***************
         -->

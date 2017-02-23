@@ -22,10 +22,11 @@
 <script src="plugins/material-js/angular-websocket.js"></script>
 
 <script src="plugins/angular-audio-recorder/angular-audio-recorder.js"></script>
+<script src="plugins/wavesurfer/wavesurfer.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/book.js"></script>
 
-<div ng-controller="BookController" ng-app="WebApp">
+<div ng-controller="BookController as $ctrl" ng-app="WebApp" ng-init="$ctrl.init()">
     <md-toolbar layout="row" class="md-info header">
         <h2 flex="33">Category 1 > Book 1</h2>
         <h1 flex="33">Book1</h1> <span flex="33"></span>
@@ -94,6 +95,38 @@
             </div>
         </ng-audio-recorder>
     </md-subheader>
+    <div layout="row">
+
+        <div flex="33">
+            <form method="POST" enctype="multipart/form-data" action="/audio/service/upload">
+                <table>
+                    <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                    <tr><td>Book to upload:</td><td><input type="text" name="bookId" /></td></tr>
+                    <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+                </table>
+            </form>
+        </div>
+        <section layout="column" flex="66">
+            <div id="waveform"></div>
+            <section layout="row">
+
+                <md-input-container>
+                    <label>audio files</label>
+                    <md-select ng-model="$ctrl.selectedFile">
+                        <md-option ng-repeat = "file in $ctrl.audioList" ng-click="$ctrl.playfile(file)">
+                            {{file}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button ng-click="$ctrl.play()"> play </md-button>
+                <md-button ng-click="$ctrl.pause()"> pause </md-button>
+                <md-button ng-click="$ctrl.stop()"> stop </md-button>
+                <md-slider ng-model="$ctrl.volume" step=".01" min="0" max="1">
+                </md-slider>
+            </section>
+            </section>
+    </div>
+
 
     <md-tabs md-dynamic-height md-border-bottom>
         <md-tab label="chapter one">
